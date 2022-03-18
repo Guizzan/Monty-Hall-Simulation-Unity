@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("asdasd");
             _selectedDoor = doorNumber;
-            Instance.transform.Find("firstSelected").GetComponent<TextMeshProUGUI>().text = "First Selected: " + _selectedDoor;
+            Instance.transform.Find("firstSelected").GetComponent<TextMeshProUGUI>().text = "First Selected: " + (_selectedDoor + 1);
             foreach (GameObject door in Doors)
             {
                 door.transform.Find("DoorMover/Selected").GetComponent<MeshRenderer>().enabled = false;
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
             Doors[RandomDoor].GetComponent<Animator>().SetTrigger("Open");
             OpenedDoors[RandomDoor] = true;
             _hostSelected = RandomDoor;
-            Instance.transform.Find("hostOpened").GetComponent<TextMeshProUGUI>().text = "Host Opened: " + RandomDoor;
+            Instance.transform.Find("hostOpened").GetComponent<TextMeshProUGUI>().text = "Host Opened: " + (RandomDoor + 1);
             yield return new WaitForSeconds(1.5f);
             narator.text = "Host: Now, will you change your selection?";
             _canClick = true;
@@ -153,9 +153,9 @@ public class GameManager : MonoBehaviour
             yield break;
         }
         bool changedDoor = (_selectedDoor != doorNumber) ? true : false;
+        Instance.transform.Find("secondSelected").GetComponent<TextMeshProUGUI>().text = "Second Selected: " + doorNumber;
         if (!changedDoor)
         {
-            Instance.transform.Find("secondSelected").GetComponent<TextMeshProUGUI>().text = "Second Selected: None";
             if (_carDoor == doorNumber) //Won the game
             {
                 narator.text = "Host: You didn't change your mind but you still won the car!";
@@ -172,7 +172,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Instance.transform.Find("secondSelected").GetComponent<TextMeshProUGUI>().text = "Second Selected: " + doorNumber;
             if (_carDoor == doorNumber) //Won the game
             {
                 narator.text = "Host: You changed your mind and won the car!";
@@ -199,7 +198,7 @@ public class GameManager : MonoBehaviour
             int percantage = Mathf.RoundToInt(_foundCarCount / _currentCount * 100);
             succesRate.text = "Succes Rate: %" + percantage;
         }
-        Instance.transform.Find("carPos").GetComponent<TextMeshProUGUI>().text = "Car Door: " + _carDoor;
+        Instance.transform.Find("carPos").GetComponent<TextMeshProUGUI>().text = "Car Door: " + (_carDoor + 1);
         Instance.transform.Find("simNumber").GetComponent<TextMeshProUGUI>().text = "Simulation: " + _currentCount;
         missedCarCount.text = "Missed Car: " + (_currentCount - _foundCarCount);
         if (_autoPick && _currentCount < _simCount)
